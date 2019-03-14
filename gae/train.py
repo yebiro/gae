@@ -23,14 +23,14 @@ from gae.preprocessing import preprocess_graph, construct_feed_dict, sparse_to_t
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 flags.DEFINE_float('learning_rate', 0.01, 'Initial learning rate.')
-flags.DEFINE_integer('epochs', 2500, 'Number of epochs to train.')
+flags.DEFINE_integer('epochs', 250, 'Number of epochs to train.')
 flags.DEFINE_integer('hidden1', 32, 'Number of units in hidden layer 1.')
 flags.DEFINE_integer('hidden2', 16, 'Number of units in hidden layer 2.')
 flags.DEFINE_float('weight_decay', 0., 'Weight for L2 loss on embedding matrix.')
 flags.DEFINE_float('dropout', 0., 'Dropout rate (1 - keep probability).')
 
 flags.DEFINE_string('model', 'gcn_ae', 'Model string.')
-flags.DEFINE_string('dataset', 'email', 'Dataset string.')
+flags.DEFINE_string('dataset', 'hamster', 'Dataset string.')
 flags.DEFINE_integer('datatype', 1, 'Datatype.')
 flags.DEFINE_integer('features', 0, 'Whether to use features (1) or not (0).')
 
@@ -139,8 +139,9 @@ val_roc_score = []
 adj_label = adj_train + sp.eye(adj_train.shape[0])
 adj_label = sparse_to_tuple(adj_label)
 
-filetime = time.strftime('%Y-%m-%d %H-%M', time.localtime(time.time()))
-resultfile = 'result/'+filetime+'.txt'
+filetime = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+filename = model_str+"_"+dataset_str+"_"+filetime
+resultfile = 'result/'+filename+'.txt'
 with open(resultfile, 'w+') as result:
     # Train model
     for epoch in range(FLAGS.epochs):

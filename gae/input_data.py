@@ -17,7 +17,7 @@ def load_data(dataset, datatype):
         graph = []
         name = 'edgelist'
         with open("data/out.{}.{}".format(dataset, name), 'rb') as f:
-            graph = nx.read_edgelist(f, nodetype=str, encoding='latin1', data=(('weight', float),))
+            graph = nx.read_edgelist(f, create_using=nx.Graph(), nodetype=str, encoding='latin1', data=(('weight', float),))
 
         print(type(graph))
         adj = nx.adjacency_matrix(graph)
